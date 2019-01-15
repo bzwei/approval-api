@@ -15,6 +15,7 @@ class StageUpdateService
       EventService.new(stage.request).approver_group_notified(stage)
     when Stage::FINISHED_STATE
       EventService.new(stage.request).approver_group_finished(stage)
+      stage_finished(stage.decision)
       request_finished(stage.decision, stage.reason) if last_stage?
     when Stage::SKIPPED_STATE
       last_stage_skipped if last_stage?
@@ -54,5 +55,15 @@ class StageUpdateService
       :decision => last_decision,
       :reason   => last_reason
     )
+  end
+
+  def stage_finished(decision)
+    next_stage = stage.request.stages.find { |s| s.state == Stage::PENDING_STATE }
+    return unless next_stage
+    if decision == Stage::DENIED_STATUS
+      ActionCreateService.new(next_stage.id).create(:operation => Action::SKIP_OPERATION, :processed_by => 'system')
+    else
+      ActionCreateService.new(next_stage.id).create(:operation => Action::NOTIFY_OPERATION, :processed_by => 'system', :comments => 'email sent')
+    end
   end
 end

@@ -21,7 +21,13 @@ class RequestCreateService
       :stages   => stages
     )
     Request.create!(create_options).tap do |request|
-      start_approval_process(request) if default_approve? || auto_approve?
+      #start_approval_process(request) if default_approve? || auto_approve?
+      acs = ActionCreateService.new(request.stages.first.id)
+      acs.create(
+        :operation    => Action::NOTIFY_OPERATION,
+        :processed_by => 'system',
+        :comments     => "email sent"
+      )
     end
   end
 

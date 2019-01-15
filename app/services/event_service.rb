@@ -54,7 +54,7 @@ class EventService
       :port     => ENV['QUEUE_PORT'] || 9092,
       :encoding => 'json'
     ) do |client|
-      client.publish_topic(:service => topic, :sender => EVENT_SENDER, :event => event, :payload => payload)
+      client.publish_topic(:service => topic, :persist_ref => 'kafdrop', :sender => EVENT_SENDER, :event => event, :payload => payload)
     end
   rescue StandardError
     # Temporarily suppress the error for test without Kafka
