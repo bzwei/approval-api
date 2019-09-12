@@ -1,5 +1,6 @@
 # OpenAPI for Rails 5
-# Test
+# Test 2
+
 [![Build Status](https://travis-ci.org/ManageIQ/approval-api.svg)](https://travis-ci.org/ManageIQ/approval-api)
 [![Maintainability](https://api.codeclimate.com/v1/badges/01ea4517f71f0df102d2/maintainability)](https://codeclimate.com/github/ManageIQ/approval-api/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/01ea4517f71f0df102d2/test_coverage)](https://codeclimate.com/github/ManageIQ/approval-api/test_coverage)
